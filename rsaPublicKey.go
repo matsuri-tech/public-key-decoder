@@ -1,4 +1,4 @@
-package public_key_decoder
+package public_key_handler
 
 import "crypto/rsa"
 

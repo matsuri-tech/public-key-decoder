@@ -1,4 +1,4 @@
-package public_key_decoder
+package public_key_handler
 
 type JSONWebKey struct {
 	Kty string   `json:"kty"`
