@@ -41,7 +41,7 @@ func (handler PublicKeyHandler) GetPublicKeyMapFromJWKEndpoint(endpoint string) 
 }
 
 func (handler PublicKeyHandler) getRSAPublicKeyFromJWK(jwk JSONWebKey) (RSAPublicKey, error) {
-	decodedN, err := base64.StdEncoding.DecodeString(jwk.N)
+	decodedN, err := base64.RawURLEncoding.DecodeString(jwk.N)
 	if err != nil {
 		return RSAPublicKey{}, err
 	}
