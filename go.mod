@@ -1,1 +1,1 @@
-module public-key-decoder
+module github.com/matsuri-tech/public-key-decoder
