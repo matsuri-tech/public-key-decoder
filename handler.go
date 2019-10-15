@@ -136,8 +136,8 @@ func (handler PublicKeyHandler) getECDSAPublicKeyFromJWK(jwk ECDSAJSONWebKey) (E
 
 	var curve elliptic.Curve
 	switch jwk.Crv {
-	case "P-256":
-		curve = elliptic.P256()
+	case "P-384":
+		curve = elliptic.P384()
 	default:
 		return ECDSAPublicKey{}, InvalidEllipticCurve(jwk.Crv)
 	}

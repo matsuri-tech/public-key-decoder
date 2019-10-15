@@ -41,7 +41,7 @@ func TestJWKHandler_getECDSAPublicKeyFromJWK(t *testing.T) {
 
 	jwk := ECDSAJSONWebKey{
 		Kty: "EC",
-		Crv: "P-256",
+		Crv: "P-384",
 		Kid: "tn1AViVj7vhk4TrdghT8Mw==",
 		X:   "sC1IpRQTKG3a_ULMXQZmP95vXUg3qWq1wUy_qIedfBU",
 		Y:   "74SsB5DCdaML6rt99v0DVPRIoGh0WR3G8mxYUr4uUtM",
@@ -52,7 +52,7 @@ func TestJWKHandler_getECDSAPublicKeyFromJWK(t *testing.T) {
 		t.Error(err)
 	}
 
-	wantCrv := "P-256"
+	wantCrv := "P-384"
 	if got := key.Key.Curve.Params().Name; got != wantCrv {
 		t.Errorf("want %v, got %v", wantCrv, got)
 	}
@@ -82,7 +82,7 @@ func TestJWKHandler_getECDSAPublicKeyMapFromJWKs(t *testing.T) {
 	jwks := ECDSAJWKs{
 		{
 			Kty: "EC",
-			Crv: "P-256",
+			Crv: "P-384",
 			Kid: "tn1AViVj7vhk4TrdghT8Mw==",
 			X:   "sC1IpRQTKG3a_ULMXQZmP95vXUg3qWq1wUy_qIedfBU",
 			Y:   "74SsB5DCdaML6rt99v0DVPRIoGh0WR3G8mxYUr4uUtM",
