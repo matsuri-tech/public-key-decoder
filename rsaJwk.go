@@ -1,6 +1,6 @@
 package public_key_handler
 
-type JSONWebKey struct {
+type RSAJSONWebKey struct {
 	Kty string   `json:"kty"`
 	Kid string   `json:"kid"`
 	Use string   `json:"use"`
@@ -9,4 +9,4 @@ type JSONWebKey struct {
 	X5c []string `json:"x5c"`
 }
 
-type JWKs []JSONWebKey
+type RSAJWKs []RSAJSONWebKey

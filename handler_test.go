@@ -35,3 +35,67 @@ func TestJWKHandler_decodeN(t *testing.T) {
 		t.Errorf("want %v, got %v", want, keyN)
 	}
 }
+
+func TestJWKHandler_getECDSAPublicKeyFromJWK(t *testing.T) {
+	handler := NewPublicKeyHandler()
+
+	jwk := ECDSAJSONWebKey{
+		Kty: "EC",
+		Crv: "P-384",
+		Kid: "tn1AViVj7vhk4TrdghT8Mw==",
+		X:   "sC1IpRQTKG3a_ULMXQZmP95vXUg3qWq1wUy_qIedfBU",
+		Y:   "74SsB5DCdaML6rt99v0DVPRIoGh0WR3G8mxYUr4uUtM",
+	}
+
+	key, err := handler.getECDSAPublicKeyFromJWK(jwk)
+	if err != nil {
+		t.Error(err)
+	}
+
+	wantCrv := "P-384"
+	if got := key.Key.Curve.Params().Name; got != wantCrv {
+		t.Errorf("want %v, got %v", wantCrv, got)
+	}
+
+	var wantX big.Int
+	wantX.SetString(
+		"79687070844812207596098443007393002297593322043514267675772315167913943071765",
+		0,
+	)
+	if got := key.Key.X; got.Cmp(&wantX) != 0 {
+		t.Errorf("want %v, got %v", wantX, got)
+	}
+
+	var wantY big.Int
+	wantY.SetString(
+		"108337181928287654206268663555247825023969395620689137485556592744914024813267",
+		0,
+	)
+	if got := key.Key.Y; got.Cmp(&wantY) != 0 {
+		t.Errorf("want %v, got %v", wantY, got)
+	}
+}
+
+func TestJWKHandler_getECDSAPublicKeyMapFromJWKs(t *testing.T) {
+	handler := NewPublicKeyHandler()
+
+	jwks := ECDSAJWKs{
+		{
+			Kty: "EC",
+			Crv: "P-384",
+			Kid: "tn1AViVj7vhk4TrdghT8Mw==",
+			X:   "sC1IpRQTKG3a_ULMXQZmP95vXUg3qWq1wUy_qIedfBU",
+			Y:   "74SsB5DCdaML6rt99v0DVPRIoGh0WR3G8mxYUr4uUtM",
+		},
+	}
+
+	keyMap, err := handler.getECDSAPublicKeyMapFromJWKs(jwks)
+	if err != nil {
+		t.Error(err)
+	}
+
+	_, ok := keyMap["tn1AViVj7vhk4TrdghT8Mw=="]
+	if !ok {
+		t.Error("key not found in got keyMap")
+	}
+}
