@@ -19,3 +19,24 @@ jobs:
           go-version-file: ./go.mod
       - name: Run tests
         run: go test -v ./...
+  lint:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version-file: ./go.mod
+          cache: true
+      - name: Run golangci-lint
+        uses: golangci/golangci-lint-action@v4
+        with:
+          # golintci-lintはgoのバージョンとの組み合わせでエラーが発生する場合がありました。
+          # そのため、雑にlatestを指定することはおすすめしません。
+          version: latest
+          args: --timeout=5m
+      - name: Run gofumpt
+        # gofmt及びgofumptにはエラー終了するオプションがないため、diffで差分があるかで確認する
+        run: |
+          gofumpt -l . | diff -u /dev/null -
