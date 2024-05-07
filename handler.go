@@ -8,7 +8,7 @@ import (
 	"encoding/binary"
 	"encoding/json"
 	"errors"
-	"io/ioutil"
+	"io"
 	"math/big"
 	"net/http"
 )
@@ -40,7 +40,7 @@ func (handler PublicKeyHandler) GetRSAPublicKeyMapFromJWKEndpoint(endpoint strin
 	if err != nil {
 		return nil, err
 	}
-	body, err := ioutil.ReadAll(response.Body)
+	body, err := io.ReadAll(response.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -108,7 +108,7 @@ func (handler PublicKeyHandler) GetECDSAPublicKeyMapFromJWKEndpoint(endpoint str
 	if err != nil {
 		return nil, err
 	}
-	body, err := ioutil.ReadAll(response.Body)
+	body, err := io.ReadAll(response.Body)
 	if err != nil {
 		return nil, err
 	}
